@@ -62,6 +62,8 @@ const login = async (req,res)=>{
         if(!match)
             throw new Error("Invalid Credentials");
 
+        const token =  jwt.sign({_id:user._id , emailId:emailId, role:user.role},process.env.JWT_KEY,{expiresIn: 60*60});
+        console.log("token ", token)
         const reply = {
             firstName: user.firstName,
             emailId: user.emailId,
@@ -69,13 +71,14 @@ const login = async (req,res)=>{
             role:user.role,
             point:user.point,
             buyProblem:user.buyProblem,
+            token:token,
         }
 
-        const token =  jwt.sign({_id:user._id , emailId:emailId, role:user.role},process.env.JWT_KEY,{expiresIn: 60*60});
         res.cookie('token',token,{maxAge: 60*60*1000});
         res.status(201).json({
             user:reply,
-            message:"Loggin Successfully"
+            message:"Loggin Successfully",
+            token
         })
     }
     catch(err){
