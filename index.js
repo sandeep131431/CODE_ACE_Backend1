@@ -13,8 +13,7 @@ const videoRouter = require("./src/routes/videoCreator");
 
 
 app.use(cors({
-    // origin: 'http://localhost:5173',
-    origin: "*",
+    origin: 'https://code-ace-frontend.vercel.app',
     credentials: true 
 }))
 
